@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2634140285065253817}
   - component: {fileID: 2634140285065253822}
   - component: {fileID: 2634140285065253823}
+  - component: {fileID: 2274480551896324137}
   m_Layer: 0
   m_Name: Egg
   m_TagString: Untagged
@@ -147,3 +148,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4068373912626513877, guid: 7a922427732c9374f88ebcb10476bc32, type: 3}
+--- !u!114 &2274480551896324137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2634140285065253821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450570b704e8de84fa92a9a0200f01fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrust: 5
+  followCam: {fileID: 0}
