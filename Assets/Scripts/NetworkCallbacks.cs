@@ -5,15 +5,39 @@ using UnityEngine;
 [BoltGlobalBehaviour]
 public class Network : Bolt.GlobalEventListener
 {
+    //private Dictionary<BoltConnection, BoltEntity> playerDict
+    //{
+    //    get
+    //    {
+    //        if (_playerDict == null)
+    //        {
+    //            _playerDict = new Dictionary<BoltConnection, BoltEntity>();
+    //        }
+    //        return _playerDict;
+    //    }
+    //}
+    //static Dictionary<BoltConnection, BoltEntity> _playerDict = null;
+
+    private void Awake()
+    {
+        //create the server player
+        PlayerRegistry.CreatePlayer(null);
+    }
     public override void SceneLoadLocalDone(string scene)
     {
-        Vector3 spawnPos = new Vector3(Random.Range(-4, 4), 0, Random.Range(-4, 4));
-        
-        BoltEntity egh = BoltNetwork.Instantiate(BoltPrefabs.Egg, spawnPos, Quaternion.identity);
-        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
-
-        camera.GetComponent<CameraController>().target = egh.gameObject.transform;
-        egh.GetComponent<EggController>().followCam = camera.transform;
+        PlayerRegistry.serverPlayer.Spawn();
         base.SceneLoadLocalDone(scene);
+    }
+
+    public override void SceneLoadRemoteDone(BoltConnection connection)
+    {
+        PlayerRegistry.GetPlayer(connection).Spawn();
+        base.SceneLoadRemoteDone(connection);
+    }
+
+    public override void Connected(BoltConnection connection)
+    {
+        PlayerRegistry.CreatePlayer(connection);
+        base.Connected(connection);
     }
 }

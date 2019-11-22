@@ -15,7 +15,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         state.SetTransforms(state.EggTransform, transform);
     }
 
-    public override void SimulateOwner()
+    public override void SimulateController()
     {
         IEggMoveInput input = EggMove.Create();
         if (Input.GetKey(KeyCode.W))
@@ -37,6 +37,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
             input.Right = true;
             //rb.AddForce(right * thrust);
         }
+        Debug.Log("queueing input");
         entity.QueueInput(input);
     }
 
@@ -46,8 +47,9 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         forward.Normalize();
         Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
         right.Normalize();
-
+        
         EggMove cmd = (EggMove)command;
+        Debug.Log(cmd);
         if (cmd.Input.Forward)
         {
             rb.AddForce(forward * thrust);
