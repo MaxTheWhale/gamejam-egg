@@ -12,10 +12,10 @@ public class Network : Bolt.GlobalEventListener
     }
     public override void SceneLoadLocalDone(string scene)
     {
-        if (PlayerRegistry.serverPlayer.entity == null)
-        {
-            PlayerRegistry.serverPlayer.Spawn();
-        }
+        //if (PlayerRegistry.serverPlayer.entity == null)
+        //{
+        //    PlayerRegistry.serverPlayer.Spawn();
+        //}
         base.SceneLoadLocalDone(scene);
     }
 
