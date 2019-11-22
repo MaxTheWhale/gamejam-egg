@@ -26,6 +26,10 @@ public static class PlayerRegistry
     }
     public static Player GetPlayer(BoltConnection connection)
     {
+        if (connection == null)
+        {
+            return serverPlayer;
+        }
         return (Player)connection.UserData;
     }
 }
