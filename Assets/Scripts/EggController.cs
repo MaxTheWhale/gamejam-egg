@@ -25,22 +25,24 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         Rigidbody rb = GetComponent<Rigidbody>();
 
         IEggMoveInput input = EggMove.Create();
+        input.Direction = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
-            input.Direction = forward * thrust;
+            input.Direction += forward;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            input.Direction = -right * thrust;
+            input.Direction += -right;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            input.Direction = -forward * thrust;
+            input.Direction += -forward;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            input.Direction = right * thrust;
+            input.Direction += right;
         }
+        input.Direction.Normalize();
         //Debug.Log("queueing input");
         entity.QueueInput(input);
     }
@@ -57,7 +59,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         }
         else
         {
-            rb.AddForce(cmd.Input.Direction);
+            rb.AddForce(cmd.Input.Direction * thrust);
         }
         cmd.Result.Position = transform.position;
         cmd.Result.Velocity = rb.velocity;
