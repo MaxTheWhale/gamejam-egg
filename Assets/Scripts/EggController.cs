@@ -5,7 +5,8 @@ using UnityEngine;
 public class EggController : MonoBehaviour
 {
     public float thrust;
-    public Rigidbody rb;
+    private Rigidbody rb;
+    public Transform followCam;
 
     void Start()
     {
@@ -14,21 +15,25 @@ public class EggController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        Vector3 forward = new Vector3(followCam.forward.x, 0, followCam.forward.z);
+        forward.Normalize();
+        Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
+        right.Normalize();
+        if (Input.GetKey(KeyCode.W))
         {
-            rb.AddForce(Vector3.forward * thrust);
+            rb.AddForce(forward * thrust);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(-Vector3.right * thrust);
+            rb.AddForce(-right * thrust);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
-            rb.AddForce(-Vector3.forward * thrust);
+            rb.AddForce(-forward * thrust);
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(Vector3.right * thrust);
+            rb.AddForce(right * thrust);
         }
     }
 }
