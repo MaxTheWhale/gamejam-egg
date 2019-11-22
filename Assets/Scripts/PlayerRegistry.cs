@@ -9,16 +9,16 @@ public static class PlayerRegistry
     public static Player CreatePlayer(BoltConnection connection)
     {
         Player player = new Player();
-        player.connection = connection;
-        players.Add(player);
         if (connection == null)
         {
             serverPlayer = player;
         }
         else
         {
+            player.connection = connection;
             player.connection.UserData = player;
         }
+        players.Add(player);
         return player;
     }
     public static Player GetPlayer(BoltConnection connection)
