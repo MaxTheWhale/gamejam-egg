@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EggController : MonoBehaviour
 {
-    public float thrust;
+    public float thrust = 5.0f;
     private Rigidbody rb;
     public Transform followCam;
 
