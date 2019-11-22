@@ -6,6 +6,9 @@ using UnityEngine;
 public class EggController : Bolt.EntityBehaviour<IEggState>
 {
     public float thrust = 5.0f;
+    private float crackedness = 0.0f;
+    private Collision collision;
+    private bool collided = false;
     private Rigidbody rb;
     public Transform followCam;
 
@@ -16,6 +19,21 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         state.SetTransforms(state.EggTransform, transform);
     }
 
+    public override void SimulateOwner()
+    {
+        if (collided)
+        {
+            crackedness += collision.relativeVelocity.magnitude;
+            BoltConsole.Write(crackedness.ToString());
+            collided = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        collided = true;
+        this.collision = collision;
+    }
     public override void SimulateController()
     {
         Vector3 forward = new Vector3(followCam.forward.x, 0, followCam.forward.z);
