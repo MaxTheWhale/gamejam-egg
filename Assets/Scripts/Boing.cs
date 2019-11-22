@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class MoveThing : MonoBehaviour
+public class Boing : MonoBehaviour
 {
     public float force = 600;
     private void OnCollisionEnter(Collision collision)
