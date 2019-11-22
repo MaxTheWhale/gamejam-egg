@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EggController : MonoBehaviour
+public class EggController : Bolt.EntityBehaviour<IEggState>
 {
     public float thrust = 5.0f;
     private Rigidbody rb;
     public Transform followCam;
 
-    void Start()
+    public override void Attached()
     {
         rb = GetComponent<Rigidbody>();
+        state.SetTransforms(state.EggTransform, transform);
     }
 
-    void FixedUpdate()
+    public override void SimulateOwner()
     {
         Vector3 forward = new Vector3(followCam.forward.x, 0, followCam.forward.z);
         forward.Normalize();
