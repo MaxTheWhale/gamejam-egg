@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Server,"Main")]
+[BoltGlobalBehaviour("Main")]
 public class Network : Bolt.GlobalEventListener
 {
     private void Awake()
