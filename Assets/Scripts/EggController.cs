@@ -11,6 +11,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 
     public override void Attached()
     {
+        Debug.Log("attaching");
         rb = GetComponent<Rigidbody>();
         state.SetTransforms(state.EggTransform, transform);
     }

@@ -7,6 +7,7 @@ public static class PlayerRegistry
 
     public static Player CreatePlayer(BoltConnection connection)
     {
+        Debug.Log("creating player");
         Player player = new Player();
         player.connection = connection;
         player.connection.UserData = player;
@@ -27,6 +28,7 @@ public class Player
     {
         if (!entity)
         {
+            Debug.Log("spawning player");
             Vector3 spawnPos = new Vector3(Random.Range(-4, 4), 0, Random.Range(-4, 4));
 
             entity = BoltNetwork.Instantiate(BoltPrefabs.Egg, spawnPos, Quaternion.identity);
