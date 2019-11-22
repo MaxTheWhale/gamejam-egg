@@ -17,25 +17,28 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 
     public override void SimulateController()
     {
+        Vector3 forward = new Vector3(followCam.forward.x, 0, followCam.forward.z);
+        forward.Normalize();
+        Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
+        right.Normalize();
+        Rigidbody rb = GetComponent<Rigidbody>();
+
         IEggMoveInput input = EggMove.Create();
         if (Input.GetKey(KeyCode.W))
         {
-            input.Forward = true;
+            input.Direction = forward * thrust;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            input.Left = true;
-            //rb.AddForce(-right * thrust);
+            input.Direction = -right * thrust;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            input.Backward = true;
-            //rb.AddForce(-forward * thrust);
+            input.Direction = -forward * thrust;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            input.Right = true;
-            //rb.AddForce(right * thrust);
+            input.Direction = right * thrust;
         }
         //Debug.Log("queueing input");
         entity.QueueInput(input);
@@ -43,12 +46,6 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 
     public override void ExecuteCommand(Command command, bool resetState)
     {
-        Vector3 forward = new Vector3(followCam.forward.x, 0, followCam.forward.z);
-        forward.Normalize();
-        Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
-        right.Normalize();
-        Rigidbody rb = GetComponent<Rigidbody>();
-
         EggMove cmd = (EggMove)command;
         //Debug.Log(cmd);
 
@@ -57,21 +54,9 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
             transform.position = cmd.Result.Position;
             rb.velocity = cmd.Result.Velocity;
         }
-        if (cmd.Input.Forward)
+        else
         {
-            rb.AddForce(forward * thrust);
-        }
-        if (cmd.Input.Left)
-        {
-            rb.AddForce(-right * thrust);
-        }
-        if (cmd.Input.Backward)
-        {
-            rb.AddForce(-forward * thrust);
-        }
-        if (cmd.Input.Right)
-        {
-            rb.AddForce(right * thrust);
+            rb.AddForce(cmd.Input.Direction);
         }
         cmd.Result.Position = transform.position;
         cmd.Result.Velocity = rb.velocity;
