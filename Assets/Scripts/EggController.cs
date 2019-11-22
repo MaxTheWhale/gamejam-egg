@@ -14,11 +14,18 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 
     public override void Attached()
     {
-        Debug.Log("attaching");
+        //Debug.Log("attaching");
         rb = GetComponent<Rigidbody>();
+        //links the local transform to the state so it syncs
         state.SetTransforms(state.EggTransform, transform);
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        //flag that a collision has occurred
+        collided = true;
+        this.collision = collision;
+    }
+    //process collision on server
     public override void SimulateOwner()
     {
         if (collided)
@@ -29,21 +36,20 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        collided = true;
-        this.collision = collision;
-    }
+    //runs on client
     public override void SimulateController()
     {
+        //set up vectors to rotate around the player camera
         Vector3 forward = new Vector3(followCam.forward.x, 0, followCam.forward.z);
         forward.Normalize();
         Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
         right.Normalize();
         Rigidbody rb = GetComponent<Rigidbody>();
 
+        //create the input to send to the server
         IEggMoveInput input = EggMove.Create();
         input.Direction = Vector3.zero;
+        //standard shitty unity if block
         if (Input.GetKey(KeyCode.W))
         {
             input.Direction += forward;
@@ -62,25 +68,31 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         }
         input.Direction.Normalize();
         //Debug.Log("queueing input");
+
+        //queue the command for execution on the server
         entity.QueueInput(input);
     }
 
+    //runs on both server and client cause ¯\_(ツ)_/¯
     public override void ExecuteCommand(Command command, bool resetState)
     {
         EggMove cmd = (EggMove)command;
         //Debug.Log(cmd);
-
         if (resetState)
         {
+            //server disagrees with client so we reset to the server's view
             transform.position = cmd.Result.Position;
             rb.velocity = cmd.Result.Velocity;
         }
         else
         {
+            //just push the player
             rb.AddForce(cmd.Input.Direction * thrust);
         }
+        //return the new position and velocity from the server
         cmd.Result.Position = transform.position;
         cmd.Result.Velocity = rb.velocity;
+        //probably pointless
         base.ExecuteCommand(command, resetState);
     }
 }

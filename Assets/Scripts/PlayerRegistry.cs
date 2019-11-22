@@ -10,6 +10,8 @@ public static class PlayerRegistry
         Debug.Log("creating player");
         Player player = new Player();
         player.connection = connection;
+        //store the player object in the connection user data to be propagated
+        //no I'm not really sure why either
         player.connection.UserData = player;
         players.Add(player);
         return player;
@@ -20,6 +22,7 @@ public static class PlayerRegistry
     }
 }
 
+//link a physical entity to the client connection
 public class Player
 {
     public BoltEntity entity;

@@ -9,6 +9,7 @@ public class PlayerCallbacks : Bolt.GlobalEventListener
         Debug.Log("control gained");
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
 
+        //link the camera and character
         camera.GetComponent<CameraController>().target = entity.gameObject.transform;
         entity.GetComponent<EggController>().followCam = camera.transform;
 
