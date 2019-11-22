@@ -37,7 +37,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
             input.Right = true;
             //rb.AddForce(right * thrust);
         }
-        Debug.Log("queueing input");
+        //Debug.Log("queueing input");
         entity.QueueInput(input);
     }
 
@@ -47,9 +47,16 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         forward.Normalize();
         Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
         right.Normalize();
-        
+        Rigidbody rb = GetComponent<Rigidbody>();
+
         EggMove cmd = (EggMove)command;
-        Debug.Log(cmd);
+        //Debug.Log(cmd);
+
+        if (resetState)
+        {
+            transform.position = cmd.Result.Position;
+            rb.velocity = cmd.Result.Velocity;
+        }
         if (cmd.Input.Forward)
         {
             rb.AddForce(forward * thrust);
@@ -67,6 +74,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
             rb.AddForce(right * thrust);
         }
         cmd.Result.Position = transform.position;
+        cmd.Result.Velocity = rb.velocity;
         base.ExecuteCommand(command, resetState);
     }
 }
