@@ -29,7 +29,7 @@ public class Player
         if (!entity)
         {
             Debug.Log("spawning player");
-            Vector3 spawnPos = new Vector3(Random.Range(-4, 4), 0, Random.Range(-4, 4));
+            Vector3 spawnPos = new Vector3(0,10,0);
 
             entity = BoltNetwork.Instantiate(BoltPrefabs.Egg, spawnPos, Quaternion.identity);
 
