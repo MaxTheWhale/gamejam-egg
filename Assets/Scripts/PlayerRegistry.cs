@@ -11,7 +11,10 @@ public static class PlayerRegistry
         Player player = new Player();
         if (connection == null)
         {
-            serverPlayer = player;
+            if (serverPlayer == null)
+            {
+                serverPlayer = player;
+            }
         }
         else
         {
