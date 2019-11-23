@@ -7,11 +7,12 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 {
     public float thrust = 5.0f;
     private float crackedness = 0.0f;
-    private float crackThreshold = 200.0f;
+    private float crackThreshold = 50f;
     private Collision collision;
     private bool collided = false;
     private Rigidbody rb;
     public Transform followCam;
+    public Player player;
 
     public override void Attached()
     {
@@ -37,6 +38,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 
             if (crackedness > crackThreshold)
             {
+                TimerManager.instance.StartCoroutine(TimerManager.instance.Respawn(player, 4f));
                 Destroy(this.gameObject);
             }
 

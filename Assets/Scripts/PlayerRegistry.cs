@@ -35,7 +35,8 @@ public class Player
             Vector3 spawnPos = new Vector3(0,10,0);
 
             entity = BoltNetwork.Instantiate(BoltPrefabs.Egg, spawnPos, Quaternion.identity);
-
+            EggController controller = entity.GetComponent<EggController>();
+            controller.player = this;
             entity.AssignControl(connection);
         }
     }
