@@ -7,7 +7,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 {
     public float thrust = 5.0f;
     private float crackedness = 0.0f;
-    private float crackThreshold = 50f;
+    private float crackThreshold = 100f;
     private Collision collision;
     private bool collided = false;
     private Rigidbody rb;
