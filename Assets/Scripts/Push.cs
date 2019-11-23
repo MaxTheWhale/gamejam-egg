@@ -10,7 +10,7 @@ public class Push : MonoBehaviour
         Rigidbody rb = collider.gameObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.velocity = new Vector3(4, rb.velocity.y, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 3);
         }
     }
 }
