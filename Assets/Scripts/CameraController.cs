@@ -61,6 +61,7 @@ public class CameraController : MonoBehaviour
 
             transform.rotation = rotation;
             transform.position = position;
+            Cursor.visible = false;
         }
     }
 
