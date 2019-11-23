@@ -575,7 +575,7 @@ MonoBehaviour:
   ySpeed: 120
   yMinLimit: -20
   yMaxLimit: 80
-  distanceMin: 3
+  distanceMin: 1
   distanceMax: 15
 --- !u!1001 &506579980
 PrefabInstance:
