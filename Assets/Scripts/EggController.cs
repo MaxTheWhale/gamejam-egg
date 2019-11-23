@@ -28,7 +28,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
     //process collision on server
     public override void SimulateOwner()
     {
-        if (collided)
+        if (collided && !collision.gameObject.CompareTag("Soft"))
         {
             crackedness += collision.relativeVelocity.magnitude;
             BoltConsole.Write(crackedness.ToString());
