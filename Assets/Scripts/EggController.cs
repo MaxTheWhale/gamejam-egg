@@ -7,6 +7,7 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 {
     public float thrust = 5.0f;
     private float crackedness = 0.0f;
+    private float crackThreshold = 200.0f;
     private Collision collision;
     private bool collided = false;
     private Rigidbody rb;
@@ -31,7 +32,14 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         if (collided && !collision.gameObject.CompareTag("Soft"))
         {
             crackedness += collision.relativeVelocity.magnitude;
+            state.crackedness = crackedness;
             BoltConsole.Write(crackedness.ToString());
+
+            if (crackedness > crackThreshold)
+            {
+                Destroy(this.gameObject);
+            }
+
             collided = false;
         }
     }
@@ -44,7 +52,6 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
         forward.Normalize();
         Vector3 right = new Vector3(followCam.right.x, 0, followCam.right.z);
         right.Normalize();
-        Rigidbody rb = GetComponent<Rigidbody>();
 
         //create the input to send to the server
         IEggMoveInput input = EggMove.Create();
@@ -71,6 +78,10 @@ public class EggController : Bolt.EntityBehaviour<IEggState>
 
         //queue the command for execution on the server
         entity.QueueInput(input);
+
+        Renderer renderer = GetComponent<Renderer>();
+        Color colour = new Color(1.0f, 1.0f, 1.0f);
+        renderer.material.SetColor("_EmissionColor", colour * (state.crackedness / crackThreshold));
     }
 
     //runs on both server and client cause ¯\_(ツ)_/¯
